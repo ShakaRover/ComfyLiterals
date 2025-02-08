@@ -6,6 +6,9 @@ import folder_paths
 
 def symlink_web_dir(local_path, extension_name):
     comfy_web_ext_root = Path(os.path.join(folder_paths.base_path, "web", "extensions"))
+    if not comfy_web_ext_root.exists():
+        comfy_web_ext_root = Path(os.path.join(folder_paths.base_path, "ComfyUI", "web", "extensions"))
+    
     target_dir = Path(os.path.join(comfy_web_ext_root, extension_name))
     extension_path = Path(__file__).parent.resolve()
 

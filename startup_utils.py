@@ -1,13 +1,21 @@
 import os
+import sys
 from pathlib import Path
 
 import folder_paths
 
+comfy_path = os.environ.get('COMFYUI_PATH')
+
+if comfy_path is None:
+    # legacy env var
+    comfy_path = os.environ.get('COMFYUI_PATH')
+
+if comfy_path is None:
+    comfy_path = os.path.abspath(os.path.dirname(sys.modules['__main__'].__file__))
+
 
 def symlink_web_dir(local_path, extension_name):
-    comfy_web_ext_root = Path(os.path.join(folder_paths.base_path, "web", "extensions"))
-    if not comfy_web_ext_root.exists():
-        comfy_web_ext_root = Path(os.path.join(folder_paths.base_path, "ComfyUI", "web", "extensions"))
+    comfy_web_ext_root = Path(os.path.join(comfy_path, "web", "extensions"))
     
     target_dir = Path(os.path.join(comfy_web_ext_root, extension_name))
     extension_path = Path(__file__).parent.resolve()

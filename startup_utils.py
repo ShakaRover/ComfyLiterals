@@ -23,6 +23,10 @@ def symlink_web_dir(local_path, extension_name):
     if target_dir.exists():
         print(f"Web extensions folder found at {target_dir}")
     elif comfy_web_ext_root.exists():
+        # if target_dir is symlink, delete it
+        if target_dir.is_symlink():
+            target_dir.unlink()
+
         try:
             os.symlink((os.path.join(extension_path, local_path)), target_dir)
         except OSError as e:  # OSError
